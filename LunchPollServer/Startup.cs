@@ -42,7 +42,7 @@ namespace LunchPollServer
         {
             app.UseDeveloperExceptionPage();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            loggerFactory.AddDebug(LogLevel.Debug);
 
             app.UseMvc();
         }

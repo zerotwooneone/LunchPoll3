@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using LunchPollServer.DataTransfer;
+using Microsoft.EntityFrameworkCore;
 
 namespace LunchPollServer.Repository
 {
@@ -15,16 +16,18 @@ namespace LunchPollServer.Repository
 
         public IEnumerable<DataTransfer.Nomination> Get(GetNominationFilters getNominationFilters)
         {
+            return NominationQuery()
+                    .ToArray();
+        }
+
+        private IQueryable<DataTransfer.Nomination> NominationQuery()
+        {
             return (from nomination in _lunchPollContext.Nominations
-                    select Convert(nomination, _lunchPollContext.Approves.Count(), _lunchPollContext.Vetoes.Count())
-                    //new DataTransfer.Nomination
-                    //{
-                    //    Approves = _lunchPollContext.Approves.Count(),
-                    //    Id = nomination.NominationId,
-                    //    Name = nomination.Name,
-                    //    Vetoes = _lunchPollContext.Vetoes.Count()
-                    //}
-                    ).ToArray();
+                    .Include(n => n.Approves)
+                    .Include(n => n.Vetoes)
+                    select Convert(nomination,
+                        nomination.Approves.Count(),
+                        nomination.Vetoes.Count()));
         }
 
         public DataTransfer.Nomination Create(string name)
@@ -45,5 +48,34 @@ namespace LunchPollServer.Repository
                 Vetoes = vetoes
             };
         }
+
+        public DataTransfer.Nomination Approve(int nominationId)
+        {
+            var approve = new Approve
+            {
+                NominationId = nominationId
+            };
+            _lunchPollContext.Approves.Add(approve);
+            _lunchPollContext.SaveChanges();
+            return (from nomination in _lunchPollContext.Nominations
+                .Include(n => n.Approves)
+                .Include(n => n.Vetoes)
+                    where nomination.NominationId == approve.NominationId
+                    select Convert(nomination, nomination.Approves.Count(), nomination.Vetoes.Count())).First();
+        }
+
+        public DataTransfer.Nomination Veto(int nominationId)
+        {
+            var veto = new Veto { NominationId = nominationId };
+            _lunchPollContext.Vetoes.Add(veto);
+            _lunchPollContext.SaveChanges();
+            return (from nomination in _lunchPollContext.Nominations
+                .Include(n => n.Approves)
+                .Include(n => n.Vetoes)
+                    where nomination.NominationId == veto.NominationId
+                    select Convert(nomination, nomination.Approves.Count(), nomination.Vetoes.Count())).First();
+        }
+
+        
     }
 }

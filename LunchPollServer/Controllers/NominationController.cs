@@ -22,12 +22,12 @@ namespace LunchPollServer.Controllers
             return nominations;
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //// GET api/values/5
+        //[HttpGet("{id}")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
         // POST api/values
         [HttpPost]
@@ -36,16 +36,30 @@ namespace LunchPollServer.Controllers
             return _nominationRepository.Create(nomination.Name);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        // Patch api/nomination/approve
+        [HttpPatch("approve")]
+        public Nomination Approve([FromBody]Nomination nomination)
         {
+            return _nominationRepository.Approve(nomination.Id);
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // Patch api/nomination/veto
+        [HttpPatch("veto")]
+        public Nomination Veto([FromBody]Nomination nomination)
         {
+            return _nominationRepository.Veto(nomination.Id);
         }
+
+        //// PUT api/values/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //}
+
+        //// DELETE api/values/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }
