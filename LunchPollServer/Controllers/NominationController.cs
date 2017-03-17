@@ -1,16 +1,25 @@
 ﻿using System.Collections.Generic;
+using LunchPollServer.DataTransfer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LunchPollServer.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class NominationController : Controller
     {
+        private readonly INominationRepository _nominationRepository;
+        public NominationController(INominationRepository nominationRepository)
+        {
+            _nominationRepository = nominationRepository;
+        }
+
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Nomination> Get(GetNominationFilters getNominationFilters)
         {
-            return new string[] { "value1", "value2" };            
+
+            var nominations = _nominationRepository.Get(getNominationFilters);
+            return nominations;
         }
 
         // GET api/values/5
@@ -22,8 +31,9 @@ namespace LunchPollServer.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public Nomination Post([FromBody]Nomination nomination)
         {
+            return _nominationRepository.Create(nomination.Name);
         }
 
         // PUT api/values/5
