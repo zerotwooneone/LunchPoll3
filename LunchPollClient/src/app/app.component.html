@@ -1,0 +1,53 @@
+<h1>
+	{{title}}
+</h1>
+<div>
+	{{insttxt}}
+</div>
+<br/>
+<div class = "container" >
+	<div *ngFor = "let nomination of nominations" class = "col-md-12">
+		<div class = "col-md-2">
+			<span>
+				{{nomination.name}}
+			</span>
+		</div>
+		<div class = "col-md-2">
+			<button (click) = "approveClick(nomination)" >
+				Approve
+			</button>
+
+			<span>
+				votes : {{nomination.approves}}
+			</span>
+		</div>
+		<div class = "col-md-2">
+			<button (click) = "vetoClick(nomination)">
+				Veto
+			</button>
+
+			<span>
+				vetoes : {{nomination.vetoes}}
+			</span>
+		</div>
+		
+	</div>
+	
+	<form class = "col-md-12" >
+
+		<input name = "new" type = "text" placeholder = "Suggest somewhere new" [(ngModel)] = "sub" />
+			
+		<button (click) = "nominateClick()" >
+			Nominate
+		</button>
+		
+	</form>
+	
+	<form class = "col-md-12" >
+
+		<button (click) = "clearClick()">
+			Clear
+		</button>
+		
+	</form>
+</div>
