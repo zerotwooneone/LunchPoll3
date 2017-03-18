@@ -6,7 +6,7 @@ namespace LunchPollServer.DataTransfer
     {
         IEnumerable<Nomination> Get(GetNominationFilters getNominationFilters);
         Nomination Create(string name);
-        Nomination Approve(int nominationId);
-        Nomination Veto(int nominationId);
+        Nomination Approve(int nominationId, int userId);
+        Nomination Veto(int nominationId, int userId);
     }
 }

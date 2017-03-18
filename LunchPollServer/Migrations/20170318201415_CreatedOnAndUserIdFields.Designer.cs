@@ -8,9 +8,10 @@ using LunchPollServer.Repository;
 namespace LunchPollServer.Migrations
 {
     [DbContext(typeof(LunchPollContext))]
-    partial class LunchPollContextModelSnapshot : ModelSnapshot
+    [Migration("20170318201415_CreatedOnAndUserIdFields")]
+    partial class CreatedOnAndUserIdFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");
@@ -40,8 +41,7 @@ namespace LunchPollServer.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(140);
+                    b.Property<string>("Name");
 
                     b.HasKey("NominationId");
 

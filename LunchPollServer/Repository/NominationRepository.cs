@@ -16,20 +16,15 @@ namespace LunchPollServer.Repository
 
         public IEnumerable<DataTransfer.Nomination> Get(GetNominationFilters getNominationFilters)
         {
-            return NominationQuery()
-                    .ToArray();
-        }
-
-        private IQueryable<DataTransfer.Nomination> NominationQuery()
-        {
             return (from nomination in _lunchPollContext.Nominations
                     .Include(n => n.Approves)
                     .Include(n => n.Vetoes)
                     select Convert(nomination,
                         nomination.Approves.Count(),
-                        nomination.Vetoes.Count()));
+                        nomination.Vetoes.Count()))
+                    .ToArray();
         }
-
+        
         public DataTransfer.Nomination Create(string name)
         {
             var n = new Nomination { Name = name };
@@ -49,11 +44,12 @@ namespace LunchPollServer.Repository
             };
         }
 
-        public DataTransfer.Nomination Approve(int nominationId)
+        public DataTransfer.Nomination Approve(int nominationId, int userId)
         {
             var approve = new Approve
             {
-                NominationId = nominationId
+                NominationId = nominationId,
+                UserId = userId
             };
             _lunchPollContext.Approves.Add(approve);
             _lunchPollContext.SaveChanges();
@@ -64,9 +60,13 @@ namespace LunchPollServer.Repository
                     select Convert(nomination, nomination.Approves.Count(), nomination.Vetoes.Count())).First();
         }
 
-        public DataTransfer.Nomination Veto(int nominationId)
+        public DataTransfer.Nomination Veto(int nominationId, int userId)
         {
-            var veto = new Veto { NominationId = nominationId };
+            var veto = new Veto
+            {
+                NominationId = nominationId,
+                UserId = userId
+            };
             _lunchPollContext.Vetoes.Add(veto);
             _lunchPollContext.SaveChanges();
             return (from nomination in _lunchPollContext.Nominations

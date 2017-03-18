@@ -1,10 +1,21 @@
-﻿namespace LunchPollServer.Repository
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace LunchPollServer.Repository
 {
     public class Approve
     {
         public int ApproveId { get; set; }
+        [Required]
         public int NominationId { get; set; }
+        public int UserId { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         public virtual Nomination Nomination { get; set; }
+
+        public Approve()
+        {
+            CreatedOn = DateTime.Now;
+        }
     }
 }

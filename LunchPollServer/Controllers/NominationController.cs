@@ -7,10 +7,10 @@ namespace LunchPollServer.Controllers
     [Route("api/[controller]")]
     public class NominationController : Controller
     {
-        private readonly INominationRepository _nominationRepository;
-        public NominationController(INominationRepository nominationRepository)
+        private readonly NominationService _nominationService;
+        public NominationController(NominationService nominationService)
         {
-            _nominationRepository = nominationRepository;
+            _nominationService = nominationService;
         }
 
         // GET api/values
@@ -18,7 +18,7 @@ namespace LunchPollServer.Controllers
         public IEnumerable<Nomination> Get(GetNominationFilters getNominationFilters)
         {
 
-            var nominations = _nominationRepository.Get(getNominationFilters);
+            var nominations = _nominationService.Get(getNominationFilters);
             return nominations;
         }
 
@@ -33,21 +33,21 @@ namespace LunchPollServer.Controllers
         [HttpPost]
         public Nomination Post([FromBody]Nomination nomination)
         {
-            return _nominationRepository.Create(nomination.Name);
+            return _nominationService.Create(nomination.Name);
         }
 
         // Patch api/nomination/approve
         [HttpPatch("approve")]
         public Nomination Approve([FromBody]Nomination nomination)
         {
-            return _nominationRepository.Approve(nomination.Id);
+            return _nominationService.Approve(nomination.Id);
         }
 
         // Patch api/nomination/veto
         [HttpPatch("veto")]
         public Nomination Veto([FromBody]Nomination nomination)
         {
-            return _nominationRepository.Veto(nomination.Id);
+            return _nominationService.Veto(nomination.Id);
         }
 
         //// PUT api/values/5
