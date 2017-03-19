@@ -48,7 +48,7 @@ namespace LunchPollServer
 
         private void AddService<T>(IServiceCollection services) where T : class
         {
-            services.AddSingleton<T>();
+            services.AddScoped<T>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
