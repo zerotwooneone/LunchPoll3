@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -48,5 +48,11 @@ export class PollService {
     }
 }
 export interface iNomination {
-    name: string, approves: number, vetoes: number, id ? : number
-}
+    name: string,
+    approves?: number,
+    vetoes?: number,
+    id?: number,
+    approved?: boolean,
+    vetoed?: boolean,
+    lastChanged?: Date
+};
