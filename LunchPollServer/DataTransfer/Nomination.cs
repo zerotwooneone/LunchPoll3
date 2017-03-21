@@ -1,4 +1,6 @@
-﻿namespace LunchPollServer.DataTransfer
+﻿using System;
+
+namespace LunchPollServer.DataTransfer
 {
     public class Nomination
     {
@@ -6,5 +8,8 @@
         public string Name { get; set; }
         public int Vetoes { get; set; }
         public int Approves { get; set; }
+        public DateTime LastChanged { get; set; }
+        public bool? Vetoed { get; set; }
+        public bool? Approved { get; set; }
     }
 }

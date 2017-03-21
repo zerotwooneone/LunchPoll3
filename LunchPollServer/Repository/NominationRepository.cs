@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LunchPollServer.DataTransfer;
 using Microsoft.EntityFrameworkCore;
@@ -14,17 +15,21 @@ namespace LunchPollServer.Repository
             _lunchPollContext = lunchPollContext;
         }
 
-        public IEnumerable<DataTransfer.Nomination> Get(GetNominationFilters getNominationFilters)
+        public IEnumerable<DataTransfer.Nomination> Get(GetNominationFilters getNominationFilters, int userId)
         {
             return (from nomination in _lunchPollContext.Nominations
                     .Include(n => n.Approves)
                     .Include(n => n.Vetoes)
                     select Convert(nomination,
-                        nomination.Approves.Count(),
-                        nomination.Vetoes.Count()))
+                         nomination.Approves.Count(),
+                         nomination.Vetoes.Count(),
+                         nomination.Approves.Any(v => v.UserId == userId),
+                         nomination.Vetoes.Any(v => v.UserId == userId),
+                         nomination.Approves.OrderByDescending(a => a.CreatedOn).FirstOrDefault() != null ? nomination.Approves.OrderByDescending(a => a.CreatedOn).FirstOrDefault().CreatedOn : (DateTime?)null,
+                         nomination.Vetoes.OrderByDescending(v => v.CreatedOn).FirstOrDefault() != null ? nomination.Vetoes.OrderByDescending(v => v.CreatedOn).FirstOrDefault().CreatedOn : (DateTime?)null))
                     .ToArray();
         }
-        
+
         public DataTransfer.Nomination Create(string name)
         {
             var n = new Nomination { Name = name };
@@ -33,14 +38,28 @@ namespace LunchPollServer.Repository
             return Convert(n);
         }
 
-        private static DataTransfer.Nomination Convert(Nomination n, int approves = 0, int vetoes = 0)
+        private static DataTransfer.Nomination Convert(Nomination n,
+            int approves = 0,
+            int vetoes = 0,
+            bool? approved = null,
+            bool? vetoed = null,
+            DateTime? approvedOn = null,
+            DateTime? vetoedOn = null)
         {
+            var t = n.CreatedOn.Ticks;
             return new DataTransfer.Nomination
             {
                 Id = n.NominationId,
                 Name = n.Name,
                 Approves = approves,
-                Vetoes = vetoes
+                Vetoes = vetoes,
+                Approved = approved,
+                Vetoed = vetoed,
+                LastChanged = new DateTime(Math.Max(
+                    t,
+                    Math.Max(
+                        approvedOn?.Ticks ?? t,
+                        vetoedOn?.Ticks ?? t)))
             };
         }
 
@@ -57,7 +76,13 @@ namespace LunchPollServer.Repository
                 .Include(n => n.Approves)
                 .Include(n => n.Vetoes)
                     where nomination.NominationId == approve.NominationId
-                    select Convert(nomination, nomination.Approves.Count(), nomination.Vetoes.Count())).First();
+                    select Convert(nomination,
+                    nomination.Approves.Count(),
+                    nomination.Vetoes.Count(),
+                    true,
+                    nomination.Vetoes.Any(v => v.UserId == userId),
+                    approve.CreatedOn,
+                    nomination.Vetoes.Max(a => a.CreatedOn))).First();
         }
 
         public DataTransfer.Nomination Veto(int nominationId, int userId)
@@ -73,9 +98,15 @@ namespace LunchPollServer.Repository
                 .Include(n => n.Approves)
                 .Include(n => n.Vetoes)
                     where nomination.NominationId == veto.NominationId
-                    select Convert(nomination, nomination.Approves.Count(), nomination.Vetoes.Count())).First();
+                    select Convert(nomination,
+                    nomination.Approves.Count(),
+                    nomination.Vetoes.Count(),
+                    nomination.Approves.Any(v => v.UserId == userId),
+                    true,
+                    nomination.Approves.Max(a => a.CreatedOn),
+                    veto.CreatedOn)).First();
         }
 
-        
+
     }
 }
