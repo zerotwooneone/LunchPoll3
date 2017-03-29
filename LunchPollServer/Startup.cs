@@ -59,6 +59,7 @@ namespace LunchPollServer
             loggerFactory.AddDebug(LogLevel.Debug);
 
             app.UseMvc();
+            app.UseStaticFiles();
         }
     }
 }
