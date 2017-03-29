@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { PollService, iNomination } from './poll.service';
 
 @Component({
@@ -9,14 +9,19 @@ import { PollService, iNomination } from './poll.service';
 export class AppComponent {
     title = 'bag of dicks!';
     insttxt = 'Vote for any number of places you want to go. Veto options if you would refuse to go there';
-    nominations = [];
+    nominations: iNomination[] = [];
+    private pageIndex: number = 0;
     constructor(private pollService: PollService) {
-        this.pollService.getNominations().subscribe((nominations) => {
-            this.nominations = nominations
-        });
+        this.getNextPage();
     }
     sub = "";
 
+    public getNextPage(): void {
+        this.pollService.getNominations(this.pageIndex).subscribe((nominations) => {
+            this.pageIndex++;
+            this.nominations.push.apply(this.nominations, nominations);
+        });
+    }
     public nominateClick(): void {
         this.pollService.nominate(this.sub).subscribe((nomination) => {
             this.nominations.push(nomination)

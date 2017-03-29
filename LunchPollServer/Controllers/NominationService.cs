@@ -32,7 +32,9 @@ namespace LunchPollServer.Controllers
 
         public IEnumerable<DataTransfer.Nomination> Get(GetNominationFilters getNominationFilters)
         {
-            var nominations = _nominationRepository.Get(getNominationFilters,_userService.UserId);
+            var nominations = _nominationRepository.Get(_userService.UserId,
+                getNominationFilters.PageSize,
+                getNominationFilters.PageIndex);
             return nominations;
         }
 

@@ -15,11 +15,19 @@ namespace LunchPollServer.Repository
             _lunchPollContext = lunchPollContext;
         }
 
-        public IEnumerable<DataTransfer.Nomination> Get(GetNominationFilters getNominationFilters, int userId)
+        public IEnumerable<DataTransfer.Nomination> Get(int userId,
+            int? pageSize = NominationDefaults.PageSize,
+            int? pageIndex = NominationDefaults.PageIndex)
         {
+            var ps = pageSize ?? NominationDefaults.PageSize;
+            var pi = pageIndex ?? NominationDefaults.PageIndex;
             return (from nomination in _lunchPollContext.Nominations
+                    .Skip(ps * pi)
+                    .Take(ps)
                     .Include(n => n.Approves)
                     .Include(n => n.Vetoes)
+                    orderby nomination.Approves.Count() descending,
+                    nomination.Vetoes.Count()
                     select Convert(nomination,
                          nomination.Approves.Count(),
                          nomination.Vetoes.Count(),
