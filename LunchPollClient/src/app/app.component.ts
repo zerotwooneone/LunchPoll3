@@ -1,5 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { PollService, iNomination } from './poll.service';
+import 'rxjs/add/operator/finally';
 
 @Component({
     selector: 'app-root',
@@ -11,16 +12,22 @@ export class AppComponent {
     insttxt = 'Vote for any number of places you want to go. Veto options if you would refuse to go there';
     nominations: iNomination[] = [];
     private pageIndex: number = 0;
+    private hasMore: boolean;
+    private apiBusy: boolean;
     constructor(private pollService: PollService) {
         this.getNextPage();
     }
     sub = "";
 
     public getNextPage(): void {
-        this.pollService.getNominations(this.pageIndex).subscribe((nominations) => {
-            this.pageIndex++;
-            this.nominations.push.apply(this.nominations, nominations);
-        });
+        this.apiBusy = true;
+        this.pollService.getNominations(this.pageIndex)
+            .finally(() => this.apiBusy = false)
+            .subscribe((page) => {
+                this.pageIndex++;
+                this.nominations.push.apply(this.nominations, page.values);
+                this.hasMore = page.hasMore;
+            });
     }
     public nominateClick(): void {
         this.pollService.nominate(this.sub).subscribe((nomination) => {
@@ -49,6 +56,9 @@ export class AppComponent {
         this.nominations = this.pollService.clear();
     }
 
+    public get nextPageVisible(): boolean {
+        return !this.apiBusy && this.hasMore;
+    }
 }
 
 

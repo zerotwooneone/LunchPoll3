@@ -47,10 +47,11 @@
 
   <form class="col-md-12">
 
-      <button (click)="clearClick()">
-          Clear
-      </button>
-    <button (click)="getNextPage()">
+    <button (click)="clearClick()">
+      Clear
+    </button>
+    <button (click)="getNextPage()"
+            *ngIf="nextPageVisible">
       Next Page
     </button>
 

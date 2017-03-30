@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptionsArgs, URLSearchParams } from '@angular/http';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -23,15 +23,14 @@ export class PollService {
     private saveNominations(nominations: iNomination[]) {
         localStorage.setItem('nominations', JSON.stringify(nominations));
     }
-    public getNominations(pageIndex?:number): Observable<iNomination[]> {
+    public getNominations(pageIndex?: number): Observable<IPage<iNomination>> {
         let urlSearchParams: URLSearchParams = new URLSearchParams();
         urlSearchParams.set("pageIndex", (pageIndex == null ? "" : pageIndex).toString());
-        let options: RequestOptionsArgs = { search:urlSearchParams};
+        let options: RequestOptionsArgs = { search: urlSearchParams };
         return this.http.get('api/nomination', options).map((response: any) => {
             let res = response.json();
-            //let body = res._body;
-            let noms = res;//body as iNomination[];
-            return noms;//.map((q) => {                return q            });
+            let noms = res;
+            return noms;
         });
     }
     public approve(nom: iNomination): Observable<iNomination> {
@@ -59,3 +58,8 @@ export interface iNomination {
     vetoed?: boolean,
     lastChanged?: Date
 };
+
+export interface IPage<T> {
+    values: T[];
+    hasMore: boolean;
+}
