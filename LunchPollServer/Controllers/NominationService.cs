@@ -1,5 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using LunchPollServer.DataTransfer;
+using Microsoft.AspNetCore.Server.Kestrel;
 
 namespace LunchPollServer.Controllers
 {
@@ -7,6 +11,7 @@ namespace LunchPollServer.Controllers
     {
         private readonly INominationRepository _nominationRepository;
         private readonly UserService _userService;
+        private const int ArbitrarilyLargeValidationValue=1000;
 
         public NominationService(INominationRepository nominationRepository,
             UserService userService)
@@ -30,8 +35,20 @@ namespace LunchPollServer.Controllers
             return _nominationRepository.Veto(nominationId, _userService.UserId);
         }
 
-        public IEnumerable<DataTransfer.Nomination> Get(GetNominationFilters getNominationFilters)
+        public IPage<Nomination> Get(GetNominationFilters getNominationFilters)
         {
+            if (getNominationFilters.PageIndex.HasValue &&
+                (getNominationFilters.PageIndex.Value < 0||
+                getNominationFilters.PageIndex.Value > ArbitrarilyLargeValidationValue))
+            {
+                throw new Exception("Invalid Filter");
+            }
+            if (getNominationFilters.PageSize.HasValue &&
+                (getNominationFilters.PageSize.Value < 0 ||
+                getNominationFilters.PageSize.Value > ArbitrarilyLargeValidationValue))
+            {
+                throw new Exception("Invalid Filter");
+            }
             var nominations = _nominationRepository.Get(_userService.UserId,
                 getNominationFilters.PageSize,
                 getNominationFilters.PageIndex);

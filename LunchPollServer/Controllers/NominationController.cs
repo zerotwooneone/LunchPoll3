@@ -15,7 +15,7 @@ namespace LunchPollServer.Controllers
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<Nomination> Get(GetNominationFilters getNominationFilters)
+        public IPage<Nomination> Get(GetNominationFilters getNominationFilters)
         {
 
             var nominations = _nominationService.Get(getNominationFilters);

@@ -4,7 +4,7 @@ namespace LunchPollServer.DataTransfer
 {
     public interface INominationRepository
     {
-        IEnumerable<Nomination> Get(int userId, 
+        IPage<Nomination> Get(int userId, 
             int? pageSize,
             int? pageIndex);
         Nomination Create(string name);
