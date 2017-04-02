@@ -15,15 +15,13 @@ namespace LunchPollServer.Repository
             _lunchPollContext = lunchPollContext;
         }
 
-        public IEnumerable<DataTransfer.Nomination> Get(int userId,
+        public IPage<DataTransfer.Nomination> Get(int userId,
             int? pageSize = NominationDefaults.PageSize,
             int? pageIndex = NominationDefaults.PageIndex)
         {
             var ps = pageSize ?? NominationDefaults.PageSize;
             var pi = pageIndex ?? NominationDefaults.PageIndex;
             return (from nomination in _lunchPollContext.Nominations
-                    .Skip(ps * pi)
-                    .Take(ps)
                     .Include(n => n.Approves)
                     .Include(n => n.Vetoes)
                     orderby nomination.Approves.Count() descending,
@@ -35,9 +33,9 @@ namespace LunchPollServer.Repository
                          nomination.Vetoes.Any(v => v.UserId == userId),
                          nomination.Approves.OrderByDescending(a => a.CreatedOn).FirstOrDefault() != null ? nomination.Approves.OrderByDescending(a => a.CreatedOn).FirstOrDefault().CreatedOn : (DateTime?)null,
                          nomination.Vetoes.OrderByDescending(v => v.CreatedOn).FirstOrDefault() != null ? nomination.Vetoes.OrderByDescending(v => v.CreatedOn).FirstOrDefault().CreatedOn : (DateTime?)null))
-                    .ToArray();
+                    .AsPage(ps,pi);
         }
-
+        
         public DataTransfer.Nomination Create(string name)
         {
             var n = new Nomination { Name = name };
@@ -116,5 +114,14 @@ namespace LunchPollServer.Repository
         }
 
 
+    }
+
+    public static class PageExtensions
+    {
+        public static IPage<T> AsPage<T>(this IQueryable<T> queryable, int pageSize, int pageIndex)
+        {
+            var array = queryable.Skip(pageSize * pageIndex).Take(pageSize+1).ToArray();
+            return new Page<T>(array.Take(pageSize), array.Length > pageSize);
+        }
     }
 }
