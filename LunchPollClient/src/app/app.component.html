@@ -1,58 +1,47 @@
-﻿<h1>
-  {{title}}
-</h1>
-<div>
-  {{insttxt}}
-</div>
-<br />
-<div class="container-fluid">
-  <div *ngFor="let nomination of nominations" class="col-md-12">
-    <div class="col-md-2">
+﻿<div class="container-fluid">
+  <div *ngFor="let nomination of nominations" class="row nomination">
+    <div class="col-xs-12 col-sm-9">
       <span>
         {{nomination.name}}
       </span>
     </div>
-    <div class="col-md-2">
+    <div class="col-xs-6 col-sm-3">
       <button (click)="approveClick(nomination)"
-              *ngIf="!nomination.approved">
+              [disabled]="nomination.approved">
         Approve
       </button>
 
       <span>
-        votes : {{nomination.approves}}
+        Votes : <span class="approval-count-text">{{nomination.approves}}</span>
       </span>
     </div>
-    <div class="col-md-2">
+    <div class="col-xs-6">
       <button (click)="vetoClick(nomination)"
-              *ngIf="!nomination.vetoed">
+              [disabled]="nomination.vetoed">
         Veto
       </button>
-
       <span>
-        vetoes : {{nomination.vetoes}}
+        Vetoes : <span class="veto-count-text">{{nomination.vetoes}}</span>
       </span>
+    </div>
+  </div>
+
+  <form class="row add-nomination-wrapper">
+    <div class="col-xs-12 nomination-input">
+      <input name="new" type="text" placeholder="Suggest somewhere new" [(ngModel)]="sub" />
+    </div>
+    <div class="col-xs-6">
+      <button (click)="nominateClick()">
+        Nominate
+      </button>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-xs-6">
+      <button (click)="getNextPage()">
+        Next Page
+      </button>
     </div>
 
   </div>
-
-  <form class="col-md-12">
-
-    <input name="new" type="text" placeholder="Suggest somewhere new" [(ngModel)]="sub" />
-
-    <button (click)="nominateClick()">
-      Nominate
-    </button>
-
-  </form>
-
-  <form class="col-md-12">
-
-      <button (click)="clearClick()">
-          Clear
-      </button>
-    <button (click)="getNextPage()">
-      Next Page
-    </button>
-
-  </form>
 </div>

@@ -7,8 +7,6 @@ import { PollService, iNomination } from './poll.service';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    title = 'bag of dicks!';
-    insttxt = 'Vote for any number of places you want to go. Veto options if you would refuse to go there';
     nominations: iNomination[] = [];
     private pageIndex: number = 0;
     constructor(private pollService: PollService) {
@@ -45,10 +43,6 @@ export class AppComponent {
             this.nominations[index] = nomResult;
         });
     }
-    public clearClick(): void {
-        this.nominations = this.pollService.clear();
-    }
-
 }
 
 
