@@ -1,5 +1,5 @@
 {
-  "name": "scotchy-scotch",
+  "name": "lunch-poll",
   "version": "0.0.0",
   "license": "MIT",
   "angular-cli": {},
@@ -33,7 +33,7 @@
     "zone.js": "^0.7.2"
   },
   "devDependencies": {
-    "@angular/cli": "^1.0.0-rc.0",
+    "@angular/cli": "^1.0.0",
     "@angular/compiler-cli": "^2.3.1",
     "@types/auth0-lock": "^10.10.1",
     "@types/core-js": "^0.9.35",
