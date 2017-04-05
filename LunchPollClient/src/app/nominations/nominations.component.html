@@ -41,7 +41,8 @@
     </div>
   </form>
   <div class="text-center">
-    <button (click)="getNextPage()">
+    <button (click)="getNextPage()"
+            *ngIf="nextPageVisible">
       Next Page
     </button>
   </div>
