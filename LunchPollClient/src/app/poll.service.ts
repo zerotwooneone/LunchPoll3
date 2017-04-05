@@ -20,9 +20,6 @@ export class PollService {
     public newNomination(name: string): iNomination {
         return { name: name, approves: 0, vetoes: 0 };
     }
-    private saveNominations(nominations: iNomination[]) {
-        localStorage.setItem('nominations', JSON.stringify(nominations));
-    }
     public getNominations(pageIndex?: number): Observable<IPage<iNomination>> {
         let urlSearchParams: URLSearchParams = new URLSearchParams();
         urlSearchParams.set("pageIndex", (pageIndex == null ? "" : pageIndex).toString());
@@ -42,11 +39,6 @@ export class PollService {
         return this.http.patch('api/nomination/veto', nom).map((response: any) => {
             return response.json() as iNomination;
         });
-    }
-    public clear(): iNomination[] {
-        let noms = new Array<iNomination>();
-        this.saveNominations(noms);
-        return noms;
     }
 }
 export interface iNomination {
