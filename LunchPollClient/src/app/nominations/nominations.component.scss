@@ -1,0 +1,20 @@
+﻿.list-item-wrapper {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.nomination-wrapper {
+  @extend .list-item-wrapper;
+  background-color: linen;
+}
+
+.add-nomination-wrapper {
+  @extend .list-item-wrapper;
+  background-color: lightgreen;
+}
+
+.nomination-input {
+  width: 100%;
+}

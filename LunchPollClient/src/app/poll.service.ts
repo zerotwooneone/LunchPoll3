@@ -3,12 +3,11 @@ import { Headers, Http, RequestOptionsArgs, URLSearchParams } from '@angular/htt
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { AuthHttp } from 'angular2-jwt';
-import {Auth} from './auth.service';
 
 @Injectable()
 export class PollService {
 
-    constructor(private http: Http, private authHttp: AuthHttp, private auth: Auth) { }
+    constructor(private http: Http, private authHttp: AuthHttp) { }
 
     public nominate(name: string): Observable<iNomination> {
         let nomination = this.newNomination(name);

@@ -1,6 +1,7 @@
 ﻿import { NgModule } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { Auth } from './auth.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     return new AuthHttp(new AuthConfig(), http, options);
@@ -8,6 +9,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
 @NgModule({
     providers: [
+        Auth,
         {
             provide: AuthHttp,
             useFactory: authHttpServiceFactory,
