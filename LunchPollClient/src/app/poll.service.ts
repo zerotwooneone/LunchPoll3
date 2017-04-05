@@ -23,11 +23,7 @@ export class PollService {
         let urlSearchParams: URLSearchParams = new URLSearchParams();
         urlSearchParams.set("pageIndex", (pageIndex == null ? "" : pageIndex).toString());
         let options: RequestOptionsArgs = { search: urlSearchParams };
-//this.authHttp.tokenStream.subscribe(
-//    data => console.log("token stream data:"+data),
-//    err => console.log("error authHttp:" + err),
-//    () => console.log('Complete')
-//);
+
         return this.authHttp.get('api/nomination', options).map((response: any) => {
             let res = response.json();
             //let body = res._body;

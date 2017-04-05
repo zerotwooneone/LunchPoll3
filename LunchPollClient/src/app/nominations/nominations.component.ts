@@ -23,7 +23,15 @@ export class NominationsComponent implements OnInit {
     public getNextPage(): void {
         this.pollService.getNominations(this.pageIndex).subscribe((nominations) => {
             this.pageIndex++;
-            this.nominations.push.apply(this.nominations, nominations);
+            nominations.forEach((nomination) => {
+                let index = -1;
+                let existing = this.nominations.some((n, i) => { if (n.id === nomination.id) return !!(index = i) });
+                if (existing) {
+                    this.nominations[index] = nomination;
+                } else {
+                    this.nominations.push(nomination);
+                }
+            });
         });
     }
     public nominateClick(): void {
