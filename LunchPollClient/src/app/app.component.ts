@@ -1,16 +1,24 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PollService, iNomination } from './poll.service';
+import { Auth } from './auth.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+    ngOnInit(): void {
+        this.getNextPage();
+    }
+
     nominations: iNomination[] = [];
     private pageIndex: number = 0;
-    constructor(private pollService: PollService) {
-        this.getNextPage();
+    constructor(private pollService: PollService,
+        private auth: Auth,
+        private router: Router) {
+        
     }
     sub = "";
 

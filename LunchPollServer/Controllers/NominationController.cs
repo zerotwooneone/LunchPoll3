@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LunchPollServer.DataTransfer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LunchPollServer.Controllers
@@ -14,6 +15,7 @@ namespace LunchPollServer.Controllers
         }
 
         // GET api/values
+        [Authorize]
         [HttpGet]
         public IPage<Nomination> Get(GetNominationFilters getNominationFilters)
         {

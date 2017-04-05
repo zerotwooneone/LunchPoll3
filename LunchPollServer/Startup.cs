@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using LunchPollServer.Controllers;
 using LunchPollServer.DataTransfer;
 using LunchPollServer.Repository;
@@ -82,6 +78,13 @@ namespace LunchPollServer
                     }
                 });
             });
+
+            var options = new JwtBearerOptions
+            {
+                Audience = Configuration["auth0:clientId"],
+                Authority = $"https://{Configuration["auth0:domain"]}/"
+            };
+            app.UseJwtBearerAuthentication(options);
 
             app.UseMvc();
             app.UseStaticFiles();

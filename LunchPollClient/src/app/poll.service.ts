@@ -2,17 +2,17 @@
 import { Headers, Http, RequestOptionsArgs, URLSearchParams } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { AuthHttp } from 'angular2-jwt';
+import {Auth} from './auth.service';
 
 @Injectable()
 export class PollService {
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private authHttp: AuthHttp, private auth: Auth) { }
 
     public nominate(name: string): Observable<iNomination> {
-        console.log(name);
         let nomination = this.newNomination(name);
-        let noms = this.getNominations();
-
+        
         return this.http.post('api/nomination', nomination).map((response: any) => {
             return response.json() as iNomination;
         });
@@ -23,8 +23,13 @@ export class PollService {
     public getNominations(pageIndex?:number): Observable<iNomination[]> {
         let urlSearchParams: URLSearchParams = new URLSearchParams();
         urlSearchParams.set("pageIndex", (pageIndex == null ? "" : pageIndex).toString());
-        let options: RequestOptionsArgs = { search:urlSearchParams};
-        return this.http.get('api/nomination', options).map((response: any) => {
+        let options: RequestOptionsArgs = { search: urlSearchParams };
+//this.authHttp.tokenStream.subscribe(
+//    data => console.log("token stream data:"+data),
+//    err => console.log("error authHttp:" + err),
+//    () => console.log('Complete')
+//);
+        return this.authHttp.get('api/nomination', options).map((response: any) => {
             let res = response.json();
             //let body = res._body;
             let noms = res;//body as iNomination[];
