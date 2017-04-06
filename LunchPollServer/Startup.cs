@@ -56,7 +56,7 @@ namespace LunchPollServer
             app.UseDeveloperExceptionPage();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug(LogLevel.Debug);
-
+            
             app.UseExceptionHandler(errorApp =>
             {
                 errorApp.Run(async context =>
@@ -87,6 +87,7 @@ namespace LunchPollServer
             app.UseJwtBearerAuthentication(options);
 
             app.UseMvc();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
         }
     }
