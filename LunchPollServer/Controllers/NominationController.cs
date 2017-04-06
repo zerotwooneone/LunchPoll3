@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Diagnostics;
 using LunchPollServer.DataTransfer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LunchPollServer.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class NominationController : Controller
     {
@@ -14,24 +15,22 @@ namespace LunchPollServer.Controllers
             _nominationService = nominationService;
         }
 
-        // GET api/values
-        [Authorize]
+        // GET api/nomination
         [HttpGet]
         public IPage<Nomination> Get(GetNominationFilters getNominationFilters)
         {
-
             var nominations = _nominationService.Get(getNominationFilters);
             return nominations;
         }
 
-        //// GET api/values/5
+        //// GET api/nomination/5
         //[HttpGet("{id}")]
         //public string Get(int id)
         //{
         //    return "value";
         //}
 
-        // POST api/values
+        // POST api/nomination
         [HttpPost]
         public Nomination Post([FromBody]Nomination nomination)
         {
@@ -52,13 +51,13 @@ namespace LunchPollServer.Controllers
             return _nominationService.Veto(nomination.Id);
         }
 
-        //// PUT api/values/5
+        //// PUT api/nomination/5
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody]string value)
         //{
         //}
 
-        //// DELETE api/values/5
+        //// DELETE api/nomination/5
         //[HttpDelete("{id}")]
         //public void Delete(int id)
         //{
