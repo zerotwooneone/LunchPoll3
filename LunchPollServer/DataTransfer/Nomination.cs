@@ -12,5 +12,6 @@ namespace LunchPollServer.DataTransfer
         public DateTime LastChanged { get; set; }
         public bool? Vetoed { get; set; }
         public bool? Approved { get; set; }
+        public string UserId { get; set; }
     }
 }

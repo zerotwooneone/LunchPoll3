@@ -10,7 +10,7 @@ namespace LunchPollServer.Repository
         [StringLength(140,MinimumLength = 1)]
         public string Name { get; set; }
         public DateTime CreatedOn { get; set; }
-
+        public string UserId { get; set; }
         public HashSet<Veto> Vetoes { get; set; }
         public HashSet<Approve> Approves { get; set; }
 

@@ -22,17 +22,17 @@ namespace LunchPollServer.Controllers
 
         public Nomination Create(string name)
         {
-            return _nominationRepository.Create(name);
+            return _nominationRepository.Create(name, _userService.GetUserId());
         }
 
         public Nomination Approve(int nominationId)
         {
-            return _nominationRepository.Approve(nominationId, _userService.UserId);
+            return _nominationRepository.Approve(nominationId, _userService.GetUserId());
         }
 
         public Nomination Veto(int nominationId)
         {
-            return _nominationRepository.Veto(nominationId, _userService.UserId);
+            return _nominationRepository.Veto(nominationId, _userService.GetUserId());
         }
 
         public IPage<Nomination> Get(GetNominationFilters getNominationFilters)
@@ -49,7 +49,7 @@ namespace LunchPollServer.Controllers
             {
                 throw new Exception("Invalid Filter");
             }
-            var nominations = _nominationRepository.Get(_userService.UserId,
+            var nominations = _nominationRepository.Get(_userService.GetUserId(),
                 getNominationFilters.PageSize,
                 getNominationFilters.PageIndex);
             return nominations;

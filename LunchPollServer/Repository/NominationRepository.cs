@@ -15,7 +15,7 @@ namespace LunchPollServer.Repository
             _lunchPollContext = lunchPollContext;
         }
 
-        public IPage<DataTransfer.Nomination> Get(int userId,
+        public IPage<DataTransfer.Nomination> Get(string userId,
             int? pageSize = NominationDefaults.PageSize,
             int? pageIndex = NominationDefaults.PageIndex)
         {
@@ -36,9 +36,13 @@ namespace LunchPollServer.Repository
                     .AsPage(ps,pi);
         }
         
-        public DataTransfer.Nomination Create(string name)
+        public DataTransfer.Nomination Create(string name, string userId)
         {
-            var n = new Nomination { Name = name };
+            var n = new Nomination
+            {
+                Name = name,
+                UserId = userId
+            };
             _lunchPollContext.Nominations.Add(n);
             _lunchPollContext.SaveChanges();
             return Convert(n);
@@ -69,7 +73,7 @@ namespace LunchPollServer.Repository
             };
         }
 
-        public DataTransfer.Nomination Approve(int nominationId, int userId)
+        public DataTransfer.Nomination Approve(int nominationId, string userId)
         {
             var approve = new Approve
             {
@@ -91,7 +95,7 @@ namespace LunchPollServer.Repository
                     nomination.Vetoes.Max(a => a.CreatedOn))).First();
         }
 
-        public DataTransfer.Nomination Veto(int nominationId, int userId)
+        public DataTransfer.Nomination Veto(int nominationId, string userId)
         {
             var veto = new Veto
             {

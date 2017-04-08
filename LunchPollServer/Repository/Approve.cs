@@ -8,7 +8,7 @@ namespace LunchPollServer.Repository
         public int ApproveId { get; set; }
         [Required]
         public int NominationId { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public DateTime CreatedOn { get; set; }
 
         public virtual Nomination Nomination { get; set; }

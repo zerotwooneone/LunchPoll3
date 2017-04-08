@@ -8,7 +8,7 @@ import 'rxjs/add/operator/filter';
 @Injectable()
 export class Auth {
   // Configure Auth0
-    lock = new Auth0Lock(myConfig.clientID, myConfig.domain, {});
+    lock = new Auth0Lock(myConfig.clientID, myConfig.domain, { auth: { params: { scope:"openid profile"}}});
 
   constructor(private router:Router) {
     // Add callback for lock `authenticated` event

@@ -32,9 +32,11 @@ namespace LunchPollServer
         {
             // Add framework services.
             services.AddMvc();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<LunchPollContext>(options => options.UseSqlite("Data Source=lunchPoll.db"));
             AddRepository<INominationRepository, NominationRepository>(services);
+            AddRepository<IUserRepository,TokenIdUserRepository>(services);
 
             AddService<NominationService>(services);
             AddService<UserService>(services);

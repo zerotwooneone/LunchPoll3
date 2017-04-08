@@ -14,7 +14,7 @@ namespace LunchPollServer.Migrations
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
-            migrationBuilder.AddColumn<int>(
+            migrationBuilder.AddColumn<string>(
                 name: "UserId",
                 table: "Vetoes",
                 nullable: false,
@@ -32,9 +32,15 @@ namespace LunchPollServer.Migrations
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
-            migrationBuilder.AddColumn<int>(
+            migrationBuilder.AddColumn<string>(
                 name: "UserId",
                 table: "Approves",
+                nullable: false,
+                defaultValue: 0);
+
+            migrationBuilder.AddColumn<string>(
+                name: "UserId",
+                table: "Nominations",
                 nullable: false,
                 defaultValue: 0);
         }

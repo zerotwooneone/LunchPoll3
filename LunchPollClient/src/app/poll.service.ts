@@ -7,12 +7,12 @@ import { AuthHttp } from 'angular2-jwt';
 @Injectable()
 export class PollService {
 
-    constructor(private http: Http, private authHttp: AuthHttp) { }
+    constructor(private authHttp: AuthHttp) { }
 
     public nominate(name: string): Observable<iNomination> {
         let nomination = this.newNomination(name);
         
-        return this.http.post('api/nomination', nomination).map((response: any) => {
+        return this.authHttp.post('api/nomination', nomination).map((response: any) => {
             return response.json() as iNomination;
         });
     }
@@ -30,12 +30,12 @@ export class PollService {
         });
     }
     public approve(nom: iNomination): Observable<iNomination> {
-        return this.http.patch('api/nomination/approve', nom).map((response: any) => {
+        return this.authHttp.patch('api/nomination/approve', nom).map((response: any) => {
             return response.json() as iNomination;
         });
     }
     public veto(nom: iNomination): Observable<iNomination> {
-        return this.http.patch('api/nomination/veto', nom).map((response: any) => {
+        return this.authHttp.patch('api/nomination/veto', nom).map((response: any) => {
             return response.json() as iNomination;
         });
     }

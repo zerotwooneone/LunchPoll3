@@ -4,11 +4,11 @@ namespace LunchPollServer.DataTransfer
 {
     public interface INominationRepository
     {
-        IPage<Nomination> Get(int userId, 
+        IPage<Nomination> Get(string userId, 
             int? pageSize,
             int? pageIndex);
-        Nomination Create(string name);
-        Nomination Approve(int nominationId, int userId);
-        Nomination Veto(int nominationId, int userId);
+        Nomination Create(string name, string userId);
+        Nomination Approve(int nominationId, string userId);
+        Nomination Veto(int nominationId, string userId);
     }
 }
