@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.IO;
+using System.Text;
 using LunchPollServer.Controllers;
 using LunchPollServer.DataTransfer;
 using LunchPollServer.Repository;
@@ -36,7 +38,7 @@ namespace LunchPollServer
 
             services.AddDbContext<LunchPollContext>(options => options.UseSqlite("Data Source=lunchPoll.db"));
             AddRepository<INominationRepository, NominationRepository>(services);
-            AddRepository<IUserRepository,TokenIdUserRepository>(services);
+            AddRepository<IUserRepository, TokenIdUserRepository>(services);
 
             AddService<NominationService>(services);
             AddService<UserService>(services);
@@ -58,7 +60,7 @@ namespace LunchPollServer
             app.UseDeveloperExceptionPage();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug(LogLevel.Debug);
-            
+
             app.UseExceptionHandler(errorApp =>
             {
                 errorApp.Run(async context =>
@@ -88,9 +90,27 @@ namespace LunchPollServer
             };
             app.UseJwtBearerAuthentication(options);
 
+
             app.UseMvc();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            // ## this serves my index.html from the wwwroot folder when 
+            // ## a route not containing a file extension is not handled by MVC.  
+            // ## If the route contains a ".", a 404 will be returned instead.
+            app.MapWhen(context => //context.Response.StatusCode == 404 &&
+            !Path.HasExtension(context.Request.Path.Value),
+                        branch =>
+                        {
+                            branch.Use((context, next) =>
+                            {
+                                context.Request.Path = new PathString("/index.html");
+                                Console.WriteLine("Path changed to:" + context.Request.Path.Value);
+                                return next();
+                            });
+
+                            branch.UseStaticFiles();
+                        });
         }
     }
 }
