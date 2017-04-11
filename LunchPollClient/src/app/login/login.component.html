@@ -1,4 +1,17 @@
-﻿<p>
-  <button class="btn btn-primary btn-margin" (click)="auth.login()" *ngIf="!auth.authenticated()">Log In</button>
-  <button class="btn btn-primary btn-margin" (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button>
+﻿<p class="text-center">
+  <span *ngIf="!auth.authenticated()">
+    <span >Please</span>
+    <button class="btn btn-primary btn-margin" (click)="auth.login()">Log In</button>
+    <span>to continue.</span>
+  </span>
+  <span *ngIf="auth.authenticated()">
+    <span >You can now</span>
+    <button class="btn btn-primary btn-margin" (click)="auth.logout()">Log Out</button>
+    <span>or</span>
+    <button class="btn btn-primary btn-margin" 
+            [routerLink]="['./nominations']">Continue
+    </button>
+    <span>.</span>
+  </span>
+  
 </p>
