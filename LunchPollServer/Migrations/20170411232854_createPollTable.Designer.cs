@@ -8,9 +8,10 @@ using LunchPollServer.Repository;
 namespace LunchPollServer.Migrations
 {
     [DbContext(typeof(LunchPollContext))]
-    partial class LunchPollContextModelSnapshot : ModelSnapshot
+    [Migration("20170411232854_createPollTable")]
+    partial class createPollTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");
