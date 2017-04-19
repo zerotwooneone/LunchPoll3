@@ -1,24 +1,34 @@
 ﻿using System.Linq;
-using System.Security.Claims;
 using LunchPollServer.DataTransfer;
 using Microsoft.AspNetCore.Http;
 
 namespace LunchPollServer.Repository
 {
-    public class TokenIdUserRepository: IUserRepository
+    public class TokenIdUserRepository : IUserRepository
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly LunchPollContext _lunchPollContext;
 
-        public TokenIdUserRepository(IHttpContextAccessor httpContextAccessor)
+        public TokenIdUserRepository(IHttpContextAccessor httpContextAccessor,
+            LunchPollContext lunchPollContext)
         {
             _httpContextAccessor = httpContextAccessor;
+            _lunchPollContext = lunchPollContext;
         }
 
-        public User GetUser()
+        public DataTransfer.User GetUserByGoogleOAuth2Sub(string googleOAuth2Sub)
         {
-            return new User
+            return Convert((from user in _lunchPollContext.Users
+                            where user.GoodleOAuth2Sub == googleOAuth2Sub
+                            select user)
+                    .FirstOrDefault());
+        }
+
+        private DataTransfer.User Convert(User user)
+        {
+            return new DataTransfer.User
             {
-                UserId = GetUserId()
+                UserId = user.UserId
             };
         }
 

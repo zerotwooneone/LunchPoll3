@@ -11,8 +11,14 @@ namespace LunchPollServer.Repository
         public string Name { get; set; }
         public DateTime CreatedOn { get; set; }
         public string UserId { get; set; }
+        public long? PinnedPollId { get; set; }
+        public long? PollId { get; set; }
+
         public HashSet<Veto> Vetoes { get; set; }
         public HashSet<Approve> Approves { get; set; }
+        public virtual PinnedPoll PinnedPoll{get; set; }
+        public virtual Poll Poll { get; set; }
+        
 
         public Nomination()
         {

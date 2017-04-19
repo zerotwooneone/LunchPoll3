@@ -5,6 +5,7 @@ namespace LunchPollServer.DataTransfer
     public interface INominationRepository
     {
         IPage<Nomination> Get(string userId, 
+            string urlParam,
             int? pageSize,
             int? pageIndex);
         Nomination Create(string name, string userId);

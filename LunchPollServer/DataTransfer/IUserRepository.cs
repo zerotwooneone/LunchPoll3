@@ -2,7 +2,7 @@
 {
     public interface IUserRepository
     {
-        User GetUser();
+        User GetUserByGoogleOAuth2Sub(string googleOAuth2Sub);
         string GetUserId();
     }
 }

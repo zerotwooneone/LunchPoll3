@@ -49,9 +49,11 @@ namespace LunchPollServer.Controllers
             {
                 throw new Exception("Invalid Filter");
             }
+            var guid = Guid.Parse(getNominationFilters.UrlParam);
             var nominations = _nominationRepository.Get(_userService.GetUserId(),
-                getNominationFilters.PageSize,
-                getNominationFilters.PageIndex);
+                getNominationFilters.UrlParam,
+                pageSize: getNominationFilters.PageSize,
+                pageIndex: getNominationFilters.PageIndex);
             return nominations;
         }
 

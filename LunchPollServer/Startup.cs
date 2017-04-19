@@ -23,6 +23,7 @@ namespace LunchPollServer
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                //.AddJsonFile("appsettings.private.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -39,6 +40,7 @@ namespace LunchPollServer
             services.AddDbContext<LunchPollContext>(options => options.UseSqlite("Data Source=lunchPoll.db"));
             AddRepository<INominationRepository, NominationRepository>(services);
             AddRepository<IUserRepository, TokenIdUserRepository>(services);
+            AddRepository<IPollRepository, PollRepository>(services);
 
             AddService<NominationService>(services);
             AddService<UserService>(services);
@@ -57,7 +59,7 @@ namespace LunchPollServer
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseDeveloperExceptionPage();
+            //app.UseDeveloperExceptionPage();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug(LogLevel.Debug);
 
@@ -76,7 +78,7 @@ namespace LunchPollServer
                         await context.Response.WriteAsync(new ErrorDto()
                         {
                             Code = 1,
-                            Message = ex.Message // or your custom message
+                            Message = env.IsDevelopment() ? ex.Message : "Error" 
                             // other custom data
                         }.ToString(), Encoding.UTF8);
                     }

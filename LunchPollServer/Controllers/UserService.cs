@@ -10,7 +10,7 @@ namespace LunchPollServer.Controllers
             _userRepository = userRepository;
         }
 
-        public User GetUser() => _userRepository.GetUser();
+        public User GetUser() => _userRepository.GetUserByGoogleOAuth2Sub(GetUserId());
 
         public string GetUserId() => _userRepository.GetUserId();
     }

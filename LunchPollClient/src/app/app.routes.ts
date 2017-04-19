@@ -7,7 +7,7 @@ import { LoginComponent } from './login/login.component';
 
 const appRoutes: Routes = [
     { path: '', component: LoginComponent },
-    { path: 'nominations', component: NominationsComponent },
+    { path: 'nominations/:urlParam', component: NominationsComponent },
     { path: '**', redirectTo: '' }
 ];
 
