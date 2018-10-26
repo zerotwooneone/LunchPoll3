@@ -7,6 +7,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { UserIdModule } from './user-id/user-id.module';
 import { HomeModule } from './home/home.module';
+import { LoginModule } from './login/login.module';
 
 @NgModule({
   declarations: [
@@ -14,11 +15,12 @@ import { HomeModule } from './home/home.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     UserIdModule,
-    HomeModule
+    HomeModule,
+    LoginModule,
+    AppRoutingModule // this must be the last imported module which contains routes
   ],
   providers: [],
   bootstrap: [AppComponent]

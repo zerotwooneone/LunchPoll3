@@ -1,12 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 
 import { UserIdRepositoryService } from './user-id-repository.service';
+import { BehaviorSubject } from 'rxjs';
+import { UserIdModel } from './user-id.model';
 
 describe('UserIdRepositoryService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let service: UserIdRepositoryService;
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = new UserIdRepositoryService(new BehaviorSubject<UserIdModel>(null));
+  });
 
   it('should be created', () => {
-    const service: UserIdRepositoryService = TestBed.get(UserIdRepositoryService);
     expect(service).toBeTruthy();
   });
 });
