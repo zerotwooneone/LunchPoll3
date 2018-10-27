@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { UserIdModel } from './user-id.model';
 import { UserIdSource } from './user-id-source';
 
@@ -9,7 +9,7 @@ import { UserIdSource } from './user-id-source';
 export class UserIdRepositoryService implements UserIdSource {
   readonly UserIdModel: Observable<UserIdModel>;
 
-  constructor(private readonly UserIdSubject: BehaviorSubject<UserIdModel>) {
+  constructor(private readonly UserIdSubject: Subject<UserIdModel>) {
     this.UserIdModel = this.UserIdSubject.asObservable();
    }
 
