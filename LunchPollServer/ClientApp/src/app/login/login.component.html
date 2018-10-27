@@ -1,3 +1,11 @@
-<p>
-  login works!
-</p>
+<div >
+  <mat-form-field>
+    <input matInput placeholder="User Name" [formControl]="userName">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Password" [formControl]="password">
+  </mat-form-field>
+  <button mat-button 
+          (click)="loginClick()">Submit</button>
+</div>

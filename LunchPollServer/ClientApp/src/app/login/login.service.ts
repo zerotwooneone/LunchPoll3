@@ -18,7 +18,7 @@ export class LoginService {
         .newUser('some id')
         .pipe(take(1));
     } else {
-      empty();
+      return empty();
     }
   }
 }

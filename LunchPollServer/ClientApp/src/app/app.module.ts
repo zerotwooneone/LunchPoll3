@@ -8,6 +8,7 @@ import { environment } from '../environments/environment';
 import { UserIdModule } from './user-id/user-id.module';
 import { HomeModule } from './home/home.module';
 import { LoginModule } from './login/login.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { LoginModule } from './login/login.module';
     BrowserModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ReactiveFormsModule,
     UserIdModule,
     HomeModule,
     LoginModule,

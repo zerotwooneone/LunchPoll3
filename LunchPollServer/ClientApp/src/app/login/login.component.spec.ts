@@ -5,6 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { LoginService } from './login.service';
 import { UserIdModel } from '../user-id/user-id.model';
 import { of, empty } from 'rxjs';
+import { MaterialModule } from '../material/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -13,7 +15,9 @@ describe('LoginComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule,
+      ...MaterialModule.importsForTest,
+      ReactiveFormsModule],
       providers: [
         {provide: LoginService, useFactory: () => jasmine.createSpyObj('LoginService', ['login'])}
       ]
@@ -33,7 +37,6 @@ describe('LoginComponent', () => {
 
   it('should navigate home after successful login click', async(async () => {
     // assemble
-    
     const navigate = spyOn((<any>component).router, 'navigate');
     TestBed.get(LoginService).login.and.returnValue(of(new UserIdModel('some id')));
 
@@ -46,8 +49,8 @@ describe('LoginComponent', () => {
 
   it('should not call navigate with bad credentials', async(async () => {
     // assemble
-    component.userName = 'username';
-    component.password = 'password';
+    component.userName.setValue('username');
+    component.password.setValue('password');
     const navigate = spyOn((<any>component).router, 'navigate');
     TestBed.get(LoginService).login.and.returnValue(empty());
 

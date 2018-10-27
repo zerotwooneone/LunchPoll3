@@ -22,12 +22,12 @@ describe('LoginService', () => {
   });
 
   it('should login valid user', async(async () => {
-    const result = await service.login('username', 'password');
+    const result = await service.login('username', 'password').toPromise();
     expect(result).toBeTruthy();
   }));
 
   it('should not return user id for invalid user', async(async () => {
-    const result = await service.login('invalid', 'bad');
+    const result = await service.login('invalid', 'bad').toPromise();
     expect(result).toBeFalsy();
   }));
 });
