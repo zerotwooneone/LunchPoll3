@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { UserIdSource } from '../user-id/user-id-source';
-import { defaultIfEmpty, first, map, shareReplay } from 'rxjs/operators';
+import { shareReplay, last, merge, switchMap, take, tap } from 'rxjs/operators';
 import { UserIdModel } from '../user-id/user-id.model';
 
 @Injectable({
@@ -14,23 +14,30 @@ export class KnownUserGuard implements CanActivate {
 
   constructor(private userIdSource: UserIdSource,
     private router: Router) {
-      this.userIdModel = this.userIdSource
-      .UserIdModel
-      .pipe(defaultIfEmpty(), shareReplay(1));
+      this.userIdModel = of(null)
+      .pipe(
+        //tap(v=> console.log(`should be null: ${v}`))
+        merge(this.userIdSource.UserIdModel),
+        shareReplay(1),
+        tap(v=> console.log(`merged and shared: ${v}`))
+        );
      }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      console.log(`here`);
-      return this.userIdModel
-        .pipe(map(u => {
-          const result = u != null;
-          if (!result) {
-            this.router.navigate(['/login']);
-          }
-          console.log(`result:${result}`);
-          return result;
-        }));
+      const x = this.userIdModel
+        .pipe(
+          take(1),
+          switchMap(u => {
+            if (u == null) {
+              const result = this.router.navigate(['/login']);
+              return result;
+            }
+            return Promise.resolve(true);
+          })
+        );
+        x.subscribe();
+      return x;
   }
 }

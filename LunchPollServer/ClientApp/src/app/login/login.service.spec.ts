@@ -2,7 +2,7 @@ import { TestBed, async } from '@angular/core/testing';
 
 import { LoginService } from './login.service';
 import { UserIdRepositoryService } from '../user-id/user-id-repository.service';
-import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { UserIdModel } from '../user-id/user-id.model';
 
 describe('LoginService', () => {
@@ -11,7 +11,7 @@ describe('LoginService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({providers: [
-      {provide: UserIdRepositoryService, useFactory: () => new UserIdRepositoryService(new BehaviorSubject<UserIdModel>(null))},
+      {provide: UserIdRepositoryService, useFactory: () => new UserIdRepositoryService(new Subject<UserIdModel>())},
     ]});
     userIdRepository = TestBed.get(UserIdRepositoryService);
     service = new LoginService(userIdRepository);

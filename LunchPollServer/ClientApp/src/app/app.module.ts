@@ -9,6 +9,8 @@ import { UserIdModule } from './user-id/user-id.module';
 import { HomeModule } from './home/home.module';
 import { LoginModule } from './login/login.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserIdStorageService } from './user-id/user-id-storage.service';
+import { LocalUserIdStorageService } from './user-id/local-user-id-storage.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     LoginModule,
     AppRoutingModule // this must be the last imported module which contains routes
   ],
-  providers: [],
+  providers: [{provide: UserIdStorageService, useClass: LocalUserIdStorageService}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
