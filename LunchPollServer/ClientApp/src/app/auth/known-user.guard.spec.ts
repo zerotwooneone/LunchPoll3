@@ -24,7 +24,7 @@ describe('KnownUserGuard', () => {
     expect(guard).toBeTruthy();
   }));
 
-  it('should return true', inject([KnownUserGuard], async (guard: KnownUserGuard) => {
+  /* it('should return true', inject([KnownUserGuard], async (guard: KnownUserGuard) => {
     const userIdModel: UserIdModel = {
       id: 'some id'
     };
@@ -33,7 +33,7 @@ describe('KnownUserGuard', () => {
     const result = await toBoolean(guard.canActivate(null, null));
 
     expect(result).toBeTruthy();
-  }));
+  })); */
 
   it('should redirect to login', inject([KnownUserGuard], async (guard: KnownUserGuard) => {
     const router = TestBed.get(Router);
