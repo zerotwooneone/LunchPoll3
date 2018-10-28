@@ -20,7 +20,9 @@ export class AppComponent implements OnInit {
       .pipe(mergeMap(u => {
         return this.userIdStorageService.Set(u.id);
       }))
-      .subscribe(console.log, console.error);
+      .subscribe(
+        v => console.log(`App component user id source change. Storage service says:${v}`),
+        console.error);
   }
 
 }
