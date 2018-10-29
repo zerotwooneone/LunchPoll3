@@ -15,6 +15,7 @@ import { UserIdRepositoryService } from './user-id/user-id-repository.service';
 import { Subject } from 'rxjs';
 import { UserIdModel } from './user-id/user-id.model';
 import { UserIdSource } from './user-id/user-id-source';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { UserIdSource } from './user-id/user-id-source';
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ReactiveFormsModule,
+    HttpClientModule,
     UserIdModule,
     HomeModule,
     LoginModule,

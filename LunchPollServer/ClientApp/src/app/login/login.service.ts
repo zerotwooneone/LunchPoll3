@@ -1,24 +1,11 @@
 import { Injectable } from '@angular/core';
-import { UserIdRepositoryService } from '../user-id/user-id-repository.service';
 import { Observable, empty } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { UserIdModel } from '../user-id/user-id.model';
+import { LoginUserModel } from './login-user-model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
-
-  constructor(private userIdRepository: UserIdRepositoryService) {   }
-
-  login(username: string, password: string): Observable<UserIdModel> {
-    if (username === 'username' && password === 'password') {
-      return this
-        .userIdRepository
-        .newUser('some id')
-        .pipe(take(1));
-    } else {
-      return empty();
-    }
-  }
+export abstract class LoginService {
+  abstract login(username: string, password: string): Observable<LoginUserModel>;
 }
