@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { defaultIfEmpty, take, first } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'zh-login',

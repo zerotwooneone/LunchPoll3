@@ -19,13 +19,10 @@ export class HttpLoginService implements LoginService {
       password: password
     };
 
-    console.log('about to call');
-
     return this.httpCLient
       .post<LoginUserModel>(loginUrl, body)
       .pipe(
         catchError(err => {
-          console.log('1st handling error');
           return of(null);
         }),
         catchError(this.handleError),
