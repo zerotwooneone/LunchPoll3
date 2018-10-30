@@ -39,6 +39,10 @@ describe('KnownUserGuard', () => {
     const router = TestBed.get(Router);
     const navigateSpy: jasmine.Spy = router.navigate;
     navigateSpy.and.returnValue(Promise.resolve(true));
+    const userIdSource = TestBed.get(UserIdSource);
+    const getUserIdSpy = jasmine.createSpy('getUserId');
+    userIdSource.getUserId = getUserIdSpy;
+    getUserIdSpy.and.returnValue(Promise.resolve(null));
 
     const x = guard.canActivate(null, null);
     const result = await toBoolean(x);

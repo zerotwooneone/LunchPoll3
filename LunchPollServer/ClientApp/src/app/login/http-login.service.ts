@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { LoginService } from './login.service';
-import { shareReplay, map, switchMap, catchError } from 'rxjs/operators';
+import { shareReplay, catchError } from 'rxjs/operators';
 import { LoginUserModel } from './login-user-model';
 
 @Injectable({
@@ -19,15 +19,13 @@ export class HttpLoginService implements LoginService {
       password: password
     };
 
-    return this.httpCLient
+    const x = this.httpCLient
       .post<LoginUserModel>(loginUrl, body)
       .pipe(
-        catchError(err => {
-          return of(null);
-        }),
         catchError(this.handleError),
         shareReplay()
       );
+    return x;
   }
 
   private handleError(error: HttpErrorResponse) {

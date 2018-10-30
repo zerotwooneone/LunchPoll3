@@ -16,11 +16,13 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.userIdSource
-      .UserIdModel
-      .pipe(mergeMap(u => {
-        return this.userIdStorageService.Set(u.id);
-      }))
-      .subscribe(
+      .UserIdObservable
+      .pipe(
+        mergeMap(u => {
+          return this.userIdStorageService.Set(u.id);
+        }
+      )
+    ).subscribe(
         v => console.log(`App component user id source change. Storage service says:${v}`),
         console.error);
   }

@@ -2,5 +2,6 @@ import { Observable } from 'rxjs';
 import { UserIdModel } from './user-id.model';
 
 export abstract class UserIdSource {
-    readonly UserIdModel: Observable<UserIdModel>;
+    readonly UserIdObservable: Observable<UserIdModel>;
+    abstract getUserId(): Promise<UserIdModel>;
 }

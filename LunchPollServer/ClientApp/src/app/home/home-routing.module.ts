@@ -4,7 +4,11 @@ import { HomeComponent } from './home.component';
 import { KnownUserGuard } from '../auth/known-user.guard';
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent, canActivate: [KnownUserGuard]}
+  {
+    path: 'home',
+    canActivate: [KnownUserGuard],
+    component: HomeComponent
+  }
 ];
 
 @NgModule({

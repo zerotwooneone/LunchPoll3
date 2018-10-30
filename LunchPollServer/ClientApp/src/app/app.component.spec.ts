@@ -16,12 +16,12 @@ describe('AppComponent', () => {
         AppComponent
       ],
       providers: [
-        {provide: UserIdSource, useFactory: () => jasmine.createSpyObj('userIdSource', ['UserIdModel'])},
+        {provide: UserIdSource, useFactory: () => jasmine.createSpyObj('userIdSource', ['UserIdObservable'])},
         {provide: UserIdStorageService, useFactory: () => jasmine.createSpyObj('userIdStorageService', ['Set'])}
       ]
     }).compileComponents();
     const userIdSource: UserIdSource = TestBed.get(UserIdSource);
-    (<any>userIdSource).UserIdModel = empty();
+    (<any>userIdSource).UserIdObservable = empty();
   }));
 
   it('should create the app', () => {
@@ -47,7 +47,7 @@ describe('AppComponent', () => {
     // assemble
     const userIdSubject = new Subject<UserIdModel>();
     const userIdSource: UserIdSource = TestBed.get(UserIdSource);
-    (<any>userIdSource).UserIdModel = userIdSubject.asObservable();
+    (<any>userIdSource).UserIdObservable = userIdSubject.asObservable();
 
     const userIdStorageService = TestBed.get(UserIdStorageService);
     const setSpy: jasmine.Spy = userIdStorageService.Set;

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using LunchPollServer.Login;
-using Microsoft.AspNetCore.Http;
+﻿using LunchPollServer.Login;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace LunchPollServer.Controllers
 {
@@ -38,7 +33,7 @@ namespace LunchPollServer.Controllers
             }
             if (loginParamModel.UserName == "username" && loginParamModel.Password == "password")
             {
-                return new JsonResult(new LoginUserModel {UserId = "some c# id"});
+                return new JsonResult(new LoginUserModel { UserId = "some c# id" });
             }
             else
             {
