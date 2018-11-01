@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { defaultIfEmpty, first } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import { UserIdRepositoryService } from '../user-id/user-id-repository.service';
+import { InMemorySetterService } from '../user-id/in-memory-setter.service';
 
 @Component({
   selector: 'zh-login',
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router,
     private loginService: LoginService,
-    private userIdRepositoryService: UserIdRepositoryService) {
+    private inMemorySetterService: InMemorySetterService) {
   }
 
   async loginClick(): Promise<any> {
@@ -31,9 +31,8 @@ export class LoginComponent implements OnInit {
       .toPromise());
     if (userId != null) {
       try {
-        await this.userIdRepositoryService
-        .newUser(userId.userId)
-        .toPromise();
+        this.inMemorySetterService
+        .newUser(userId.userId);
       } catch (e) {
         console.error(e);
       }

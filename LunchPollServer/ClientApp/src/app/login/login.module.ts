@@ -6,6 +6,7 @@ import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpLoginService } from './http-login.service';
 import { LoginService } from './login.service';
+import { DebugLoginService } from './debug-login.service';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { LoginService } from './login.service';
   ],
   declarations: [LoginComponent],
   providers: [
-    { provide: LoginService, useClass: HttpLoginService}
+    { provide: LoginService, useClass: DebugLoginService}
   ]
 })
 export class LoginModule { }

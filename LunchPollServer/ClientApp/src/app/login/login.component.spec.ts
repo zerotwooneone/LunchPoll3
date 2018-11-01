@@ -6,7 +6,7 @@ import { UserIdModel } from '../user-id/user-id.model';
 import { of, empty, Subject } from 'rxjs';
 import { MaterialModule } from '../material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserIdRepositoryService } from '../user-id/user-id-repository.service';
+import { InMemorySetterService } from '../user-id/in-memory-setter.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -22,7 +22,7 @@ describe('LoginComponent', () => {
       ReactiveFormsModule],
       providers: [
         {provide: LoginService, useFactory: () => jasmine.createSpyObj('LoginService', ['login'])},
-        {provide: UserIdRepositoryService, useFactory: () => new UserIdRepositoryService(userIdSubject)}
+        {provide: InMemorySetterService, useFactory: () => new InMemorySetterService(userIdSubject)}
       ]
     })
     .compileComponents();

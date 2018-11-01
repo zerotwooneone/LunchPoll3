@@ -10,8 +10,7 @@ import { LoginUserModel } from './login-user-model';
 })
 export class HttpLoginService implements LoginService {
 
-  constructor(// private userIdRepository: UserIdRepositoryService,
-    private httpCLient: HttpClient) {   }
+  constructor(private httpCLient: HttpClient) {   }
 
   login(username: string, password: string): Observable<LoginUserModel> {
     const body = {

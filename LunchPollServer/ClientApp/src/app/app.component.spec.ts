@@ -1,13 +1,15 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { UserIdSource } from './user-id/user-id-source';
 import { UserIdStorageService } from './user-id/user-id-storage.service';
 import { Subject, empty, of } from 'rxjs';
 import { UserIdModel } from './user-id/user-id.model';
+import { InMemoryGetterService } from './user-id/in-memory-getter.service';
 
 describe('AppComponent', () => {
+  let userIdSubject: Subject<UserIdModel>;
   beforeEach(async(() => {
+    userIdSubject = new Subject<UserIdModel>();
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -16,12 +18,10 @@ describe('AppComponent', () => {
         AppComponent
       ],
       providers: [
-        {provide: UserIdSource, useFactory: () => jasmine.createSpyObj('userIdSource', ['UserIdObservable'])},
+        {provide: InMemoryGetterService, useFactory: () => new InMemoryGetterService(userIdSubject)},
         {provide: UserIdStorageService, useFactory: () => jasmine.createSpyObj('userIdStorageService', ['Set'])}
       ]
     }).compileComponents();
-    const userIdSource: UserIdSource = TestBed.get(UserIdSource);
-    (<any>userIdSource).UserIdObservable = empty();
   }));
 
   it('should create the app', () => {
@@ -45,10 +45,6 @@ describe('AppComponent', () => {
 
   it('should set the stored user id', () => {
     // assemble
-    const userIdSubject = new Subject<UserIdModel>();
-    const userIdSource: UserIdSource = TestBed.get(UserIdSource);
-    (<any>userIdSource).UserIdObservable = userIdSubject.asObservable();
-
     const userIdStorageService = TestBed.get(UserIdStorageService);
     const setSpy: jasmine.Spy = userIdStorageService.Set;
     setSpy.and.returnValue(of(true));

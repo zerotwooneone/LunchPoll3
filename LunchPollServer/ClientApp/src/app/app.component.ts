@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserIdStorageService } from './user-id/user-id-storage.service';
-import { UserIdSource } from './user-id/user-id-source';
 import { mergeMap } from 'rxjs/operators';
+import { InMemoryGetterService } from './user-id/in-memory-getter.service';
 
 @Component({
   selector: 'zh-root',
@@ -11,11 +11,11 @@ import { mergeMap } from 'rxjs/operators';
 export class AppComponent implements OnInit {
   title = 'Lunch Poll';
 
-  constructor(private userIdSource: UserIdSource,
+  constructor(private inMemoryGetterService: InMemoryGetterService,
     private userIdStorageService: UserIdStorageService) { }
 
   ngOnInit(): void {
-    this.userIdSource
+    this.inMemoryGetterService
       .UserIdObservable
       .pipe(
         mergeMap(u => {

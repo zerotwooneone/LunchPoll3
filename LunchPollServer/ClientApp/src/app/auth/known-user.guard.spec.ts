@@ -1,7 +1,6 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { KnownUserGuard } from './known-user.guard';
-import { UserIdSource } from '../user-id/user-id-source';
-import { UserIdRepositoryService } from '../user-id/user-id-repository.service';
+import { InMemoryGetterService } from '../user-id/in-memory-getter.service';
 import { Subject, Observable } from 'rxjs';
 import { UserIdModel } from '../user-id/user-id.model';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,7 +12,7 @@ describe('KnownUserGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         KnownUserGuard,
-        {provide: UserIdSource, useFactory: () => new UserIdRepositoryService(userIdModelSubject) },
+        {provide: InMemoryGetterService, useFactory: () => new InMemoryGetterService(userIdModelSubject) },
         {provide: Router, useFactory: () => jasmine.createSpyObj('router', ['navigate']) }
       ],
       imports: [RouterTestingModule]
@@ -39,7 +38,7 @@ describe('KnownUserGuard', () => {
     const router = TestBed.get(Router);
     const navigateSpy: jasmine.Spy = router.navigate;
     navigateSpy.and.returnValue(Promise.resolve(true));
-    const userIdSource = TestBed.get(UserIdSource);
+    const userIdSource = TestBed.get(InMemoryGetterService);
     const getUserIdSpy = jasmine.createSpy('getUserId');
     userIdSource.getUserId = getUserIdSpy;
     getUserIdSpy.and.returnValue(Promise.resolve(null));
