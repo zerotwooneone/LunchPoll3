@@ -5,6 +5,6 @@ export abstract class UserIdStorageService {
 
   constructor() { }
 
-  abstract readonly UserId: Observable<UserIdStorageModel>;
+  abstract get UserId(): Observable<UserIdStorageModel>;
   abstract Set(userId: string): Observable<any>;
 }

@@ -1,15 +1,10 @@
 import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { UserIdStorageService } from './user-id/user-id-storage.service';
-import { Subject, empty, of } from 'rxjs';
-import { UserIdModel } from './user-id/user-id.model';
-import { InMemoryGetterService } from './user-id/in-memory-getter.service';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AppComponent', () => {
-  let userIdSubject: Subject<UserIdModel>;
   beforeEach(async(() => {
-    userIdSubject = new Subject<UserIdModel>();
+
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -17,10 +12,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
-      providers: [
-        {provide: InMemoryGetterService, useFactory: () => new InMemoryGetterService(userIdSubject)},
-        {provide: UserIdStorageService, useFactory: () => jasmine.createSpyObj('userIdStorageService', ['Set'])}
-      ]
+      providers: [ ]
     }).compileComponents();
   }));
 
@@ -41,26 +33,5 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain('Welcome to Lunch Poll!');
-  });
-
-  it('should set the stored user id', () => {
-    // assemble
-    const userIdStorageService = TestBed.get(UserIdStorageService);
-    const setSpy: jasmine.Spy = userIdStorageService.Set;
-    setSpy.and.returnValue(of(true));
-
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges(); // ensures OnInit is fired
-
-    const expected = 'some id';
-    const u: UserIdModel = {
-      id: expected
-    };
-
-    // act
-    userIdSubject.next(u);
-    const actual = setSpy.calls.mostRecent().args[0];
-
-    expect(actual).toBe(expected);
   });
 });

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, timer } from 'rxjs';
 import { UserIdModel } from './user-id.model';
-import { shareReplay, merge, take } from 'rxjs/operators';
+import { shareReplay, merge, takeUntil, first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +17,16 @@ export class InMemoryGetterService {
         merge(this.UserIdObservable),
         shareReplay(1),
       );
+    this._userIdObservable.subscribe();
    }
 
    async getUserId(): Promise<UserIdModel> {
-     return await this._userIdObservable
-      .pipe(take(1))
-      .toPromise();
+    const result = await this._userIdObservable
+      .pipe(
+        first(u => u != null),
+        takeUntil(timer(333))
+      )
+    .toPromise();
+    return result;
    }
 }

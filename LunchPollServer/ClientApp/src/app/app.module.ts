@@ -10,6 +10,7 @@ import { HomeModule } from './home/home.module';
 import { LoginModule } from './login/login.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AppInitializerModule } from './app-initializer.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     UserIdModule,
     HomeModule,
     LoginModule,
+    AppInitializerModule,
     AppRoutingModule // this must be the last imported module which contains routes
   ],
   bootstrap: [AppComponent]

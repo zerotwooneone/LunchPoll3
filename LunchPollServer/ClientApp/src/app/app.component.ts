@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserIdStorageService } from './user-id/user-id-storage.service';
-import { mergeMap } from 'rxjs/operators';
-import { InMemoryGetterService } from './user-id/in-memory-getter.service';
 
 @Component({
   selector: 'zh-root',
@@ -11,20 +8,9 @@ import { InMemoryGetterService } from './user-id/in-memory-getter.service';
 export class AppComponent implements OnInit {
   title = 'Lunch Poll';
 
-  constructor(private inMemoryGetterService: InMemoryGetterService,
-    private userIdStorageService: UserIdStorageService) { }
+  constructor() { }
 
-  ngOnInit(): void {
-    this.inMemoryGetterService
-      .UserIdObservable
-      .pipe(
-        mergeMap(u => {
-          return this.userIdStorageService.Set(u.id);
-        }
-      )
-    ).subscribe(
-        v => console.log(`App component user id source change. Storage service says:${v}`),
-        console.error);
-  }
+  ngOnInit(): void { }
+
 
 }
