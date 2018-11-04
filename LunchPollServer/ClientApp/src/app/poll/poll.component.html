@@ -1,3 +1,17 @@
-<p>
-  {{poll.name}}
-</p>
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>{{poll.name}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p *ngIf="poll.description">
+      {{poll.description}}
+    </p>
+    <mat-selection-list>
+      <mat-list-item *ngFor="let option of options; trackBy: optionTrackBy" #optionList>
+        <mat-list-option class="option">
+          {{option.name}}
+        </mat-list-option>
+      </mat-list-item>
+    </mat-selection-list>
+  </mat-card-content>
+</mat-card>
