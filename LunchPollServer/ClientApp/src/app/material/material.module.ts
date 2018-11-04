@@ -1,5 +1,5 @@
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { MatInputModule, MatButtonModule, MatListModule, MatCardModule } from '@angular/material';
+import { MatInputModule, MatButtonModule, MatListModule, MatCardModule, MatBadgeModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 export class MaterialModule {
@@ -8,6 +8,7 @@ export class MaterialModule {
     MatButtonModule,
     MatListModule,
     MatCardModule,
-    MatButtonModule];
+    MatButtonModule,
+    MatBadgeModule];
   static readonly importsForTest: any[] = [...MaterialModule.imports, NoopAnimationsModule];
  }

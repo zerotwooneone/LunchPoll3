@@ -8,8 +8,8 @@
     </p>
     <mat-selection-list>
       <mat-list-item *ngFor="let option of options; trackBy: optionTrackBy" #optionList>
-        <mat-list-option class="option">
-          {{option.name}}
+        <mat-list-option >
+          <div>{{option.name}}</div>
         </mat-list-option>
       </mat-list-item>
     </mat-selection-list>
