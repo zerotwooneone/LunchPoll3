@@ -1,8 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PollModel } from './poll.model';
-import { PollService } from './poll.service';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'zh-poll-list',
@@ -11,15 +8,9 @@ import { take } from 'rxjs/operators';
 })
 export class PollListComponent implements OnInit {
 
-  constructor(private pollService: PollService) { }
+  constructor() { }
 
-  get polls(): Observable<PollModel[]> {
-    return this.pollService
-      .GetHomePolls()
-      .pipe(
-        take(3)
-      );
-  }
+  @Input() polls: PollModel[] ;
 
   ngOnInit() {
   }

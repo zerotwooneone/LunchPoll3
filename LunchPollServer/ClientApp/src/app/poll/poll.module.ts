@@ -11,6 +11,7 @@ import { MatListModule, MatCardModule, MatButtonModule } from '@angular/material
     MatCardModule,
     MatButtonModule
   ],
-  declarations: [PollComponent, PollListComponent]
+  declarations: [PollComponent, PollListComponent],
+  exports: [PollListComponent]
 })
 export class PollModule { }

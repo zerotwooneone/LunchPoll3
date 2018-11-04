@@ -1,5 +1,5 @@
 <div class="poll-list">
-  <div *ngFor='let poll of polls | async; trackBy: pollTrackBy'
+  <div *ngFor='let poll of polls; trackBy: pollTrackBy'
     class="poll">
     <zh-poll [poll]="poll"></zh-poll>
   </div>  
