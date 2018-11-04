@@ -1,0 +1,8 @@
+<div style="border:1px solid green">
+  <p>poll list</p>
+  <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor='let poll of polls | async; trackBy: pollTrackBy'>
+        <zh-poll [poll]="poll"></zh-poll>
+      </mat-list-item>
+    </mat-list>
+</div>  
