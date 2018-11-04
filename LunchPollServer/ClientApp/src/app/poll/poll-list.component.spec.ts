@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PollListComponent } from './poll-list.component';
+import { PollComponent } from './poll.component';
+import { MaterialModule } from '../material/material.module';
 
 describe('PollListComponent', () => {
   let component: PollListComponent;
@@ -8,7 +10,8 @@ describe('PollListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PollListComponent ]
+      declarations: [ PollListComponent, PollComponent ],
+      imports: [MaterialModule.importsForTest]
     })
     .compileComponents();
   }));
