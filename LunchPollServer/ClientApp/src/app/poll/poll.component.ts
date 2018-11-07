@@ -5,7 +5,7 @@ import { MatSelectionList, MatListOption, MatSelectionListChange } from '@angula
 import { SelectionModel } from '@angular/cdk/collections';
 import { PollService } from './poll.service';
 import { Observable, Subject } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
+import { shareReplay, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'zh-poll',
@@ -27,6 +27,13 @@ export class PollComponent implements OnInit {
     this.options = this._pollCandidates
       .asObservable()
       .pipe(
+        map(pma => {
+          return pma.sort((pm1, pm2) => {
+            const sortValue1 = pm1.vetoed ? 10000 - pm1.id : pm1.personalRank ? pm1.personalRank : pm1.id;
+            const sortValue2 = pm2.vetoed ? 10000 - pm2.id : pm2.personalRank ? pm2.personalRank : pm2.id;
+            return sortValue1 - sortValue2;
+          });
+        }),
         shareReplay(1)
       );
     this.options.subscribe(); // begin the replay

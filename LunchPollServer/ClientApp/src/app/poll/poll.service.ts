@@ -16,11 +16,11 @@ export class PollService {
       <PollModel>{ id: 1, name: 'something',
         options: [
           <PollOptionModel>{
-            id: 1, name: 'option 1',
+            id: 110, name: 'option 1',
             personalRank: 1
         },
           <PollOptionModel>{
-            id: 2, name: 'option 2'
+            id: 2999, name: 'option 2'
           }
         ]
       },
@@ -28,7 +28,7 @@ export class PollService {
       description: 'some description that is too long and demonstrates what this text looks like.',
       options: [
         <PollOptionModel>{
-          id: 1, name: 'option 1',
+          id: 19, name: 'option 1',
           vetoed: true
         },
         <PollOptionModel>{
@@ -53,7 +53,7 @@ export class PollService {
           if (po.id === pollCandidateId) {
             (<any>po).personalRank = 1;
           } else {
-            (<any>po).personalRank = 0;
+            (<any>po).personalRank = undefined;
           }
         });
       })
