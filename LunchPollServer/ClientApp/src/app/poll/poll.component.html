@@ -6,10 +6,10 @@
     <p *ngIf="poll.description">
       {{poll.description}}
     </p>
-    <mat-selection-list>
-      <mat-list-item *ngFor="let option of options; trackBy: optionTrackBy" #optionList>
-        <mat-list-option >
-          <div>{{option.name}}</div>
+    <mat-selection-list (selectionChange)="optionChange($event)">
+      <mat-list-item *ngFor="let option of options | async; trackBy: optionTrackBy;">
+        <mat-list-option [value]="option" [selected]="option.personalRank === 1">
+          <zh-poll-candidate [pollCandidate]="option"></zh-poll-candidate>
         </mat-list-option>
       </mat-list-item>
     </mat-selection-list>
