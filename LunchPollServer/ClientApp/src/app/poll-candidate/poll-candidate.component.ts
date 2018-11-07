@@ -9,6 +9,7 @@ import { PollOptionModel } from '../poll/poll-option.model';
 export class PollCandidateComponent implements OnInit {
   get name(): string { return this._pollCandidateModel.name; }
   get personalRank(): number { return this._pollCandidateModel.personalRank; }
+  get vetoed(): boolean { return this._pollCandidateModel.vetoed; }
   private _pollCandidateModel: PollOptionModel;
   @Input() set pollCandidate(pollCandidateModel: PollOptionModel) {
     this._pollCandidateModel = pollCandidateModel;
