@@ -29,9 +29,19 @@ export class PollComponent implements OnInit {
       .pipe(
         map(pma => {
           return pma.sort((pm1, pm2) => {
-            const sortValue1 = pm1.vetoed ? 10000 - pm1.id : pm1.personalRank ? pm1.personalRank : pm1.id;
-            const sortValue2 = pm2.vetoed ? 10000 - pm2.id : pm2.personalRank ? pm2.personalRank : pm2.id;
-            return sortValue1 - sortValue2;
+            if (pm1.vetoed || pm2.vetoed) {
+              if (pm1.vetoed && pm2.vetoed) {
+                return pm1.id - pm2.id;
+              } else {
+                return pm1.vetoed ? 1 : -1;
+              }
+            } else {
+              if (pm1.personalRank && pm2.personalRank) {
+                return pm1.personalRank - pm2.personalRank;
+              } else {
+                return pm1.personalRank ? -1 : 1;
+              }
+            }
           });
         }),
         shareReplay(1)
