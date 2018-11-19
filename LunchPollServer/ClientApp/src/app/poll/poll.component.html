@@ -1,4 +1,4 @@
-<mat-card class="example-card">
+<mat-card >
   <mat-card-header>
     <mat-card-title>{{poll.name}}</mat-card-title>
   </mat-card-header>
@@ -16,11 +16,8 @@
     <mat-card-actions>
       <div class="action-wrapper">
         <div class="action">
-          <button mat-raised-button>More Voting Options</button>  
-        </div>
-        <div class="action">
-          <button mat-raised-button>More Voting Options</button>
-        </div>  
+          <a mat-raised-button [routerLink]="['/poll', poll.id]">More Voting Options</a>  
+        </div>        
       </div>
     </mat-card-actions>
   </mat-card-content>
